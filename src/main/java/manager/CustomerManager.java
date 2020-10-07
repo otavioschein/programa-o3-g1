@@ -21,6 +21,8 @@ public class CustomerManager {
     static String customerBirthdayString;
     static String customerGender;
     static String customerMaritalStatus;
+    static Status customerStatus;
+    static Address customerAddress;
     static String addressStreet;
     static int addressNumber;
     static String addressCity;
@@ -58,30 +60,36 @@ public class CustomerManager {
     }
     
     public static void consult() {
+    	
         for (int i = 0; i < customerList.size(); i++) {
             System.out.println("\nName: " + customerList.get(i).getName());
-            System.out.println("\nCPF: " + customerList.get(i).getCpf());
-            System.out.println("\nPhone Number: " + customerList.get(i).getPhoneNumber());
-            System.out.println("\nEmail: " + customerList.get(i).getEmail());
-            System.out.println("\nBirthday: " + customerList.get(i).getBirthday());
-            System.out.println("\nGender: " + customerList.get(i).getGender());
-            System.out.println("\nMarital Status: " + customerList.get(i).getMaritalStatus());
-            System.out.println("\nStatus: " + customerList.get(i).getStatus());
-            System.out.println("\nAddress: " + customerList.get(i).getAddress());
+            System.out.println("CPF: " + customerList.get(i).getCpf());
+            System.out.println("Phone Number: " + customerList.get(i).getPhoneNumber());
+            System.out.println("Email: " + customerList.get(i).getEmail());
+            System.out.println("Birthday: " + sdf.format(customerList.get(i).getBirthday()));
+            System.out.println("Gender: " + customerList.get(i).getGender());
+            System.out.println("Marital Status: " + customerList.get(i).getMaritalStatus());
+            System.out.println("Status: " + customerList.get(i).getStatus());
+            System.out.println("Address: ");
+            System.out.println("	City: " + customerList.get(i).getAddress().getCity());
+            System.out.println("	State: " + customerList.get(i).getAddress().getState());
+            System.out.println("	Street: " + customerList.get(i).getAddress().getStreet());
+            System.out.println("	Number: " + customerList.get(i).getAddress().getNumber());
             System.out.println("\n -------------------------------------");
 
         }
     }
     
     public static void remove() {
+		clearBuffer(reader);
         System.out.println("Type the customer CPF to remove it: ");
-        String customerToRemove = reader.nextLine();
+        String costumerToRemove = reader.nextLine();
 
-        removeCustomer(customerToRemove);
+        removeCustomer(costumerToRemove);
         
     }
     
-    public static void edit() throws ParseException {
+    public static void edit() throws ParseException{
         System.out.println("Type the customer CPF to edit it: ");
         String customerToEdit = reader.nextLine();
 
@@ -152,6 +160,7 @@ public class CustomerManager {
 	protected static void readAndSetStatus(Customer customer){
 		do {
 	    	System.out.println("Define the customer status:  1 - ACTIVE | 2 - INACTIVE ");
+	    	optionStatus = reader.nextInt();
 	        if (optionStatus == 1) {
 	        	customer.setStatus(Status.ACTIVE);
 	        } else if (optionStatus == 2){
@@ -161,6 +170,7 @@ public class CustomerManager {
 	}
 	
 	protected static void readAndSetAddress(Customer customer){
+		clearBuffer(reader);
 		System.out.println("Type the customer address: ");
 	    
 	    System.out.println("Street: ");
@@ -168,7 +178,8 @@ public class CustomerManager {
 	    
 	    System.out.println("Number: ");
 	    addressNumber = reader.nextInt();
-	    
+		clearBuffer(reader);
+
 	    System.out.println("City: ");
 	    addressCity = reader.nextLine();
 	    
@@ -231,7 +242,7 @@ public class CustomerManager {
 				    	
 				}
 				
-				System.out.println("Do you want to leave from the edit mode? 1 - NÃƒO  2 - SIM ");
+				System.out.println("Do you want to leave from the edit mode? 1 - NÃO  2 - SIM ");
 				option = reader.nextInt();
 				
 			}
