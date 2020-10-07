@@ -14,12 +14,9 @@ public class ServiceManager {
     public static void insert() {
         Service service = new Service();
 
-        System.out.println("Type the service name: ");
-        serviceName = reader.nextLine();
-
-        service.setName(serviceName);
+        readAndSetServiceName(service);
+        
         serviceList.add(service);
-
 
         clearBuffer(reader);
     }
@@ -34,19 +31,32 @@ public class ServiceManager {
         System.out.println("Type the service name to remove it: ");
         String serviceNameToRemove = reader.nextLine();
 
-        for (int i = 0; i < serviceList.size(); i++) {
-            if (serviceList.get(i).getName().equals(serviceNameToRemove)) {
-                serviceList.remove(i);
-            }
-        }
+        removeService(serviceNameToRemove);
     }
 
-    public static void edit(){
+    public static void edit(Service service){
         System.out.println("Type the service name to edit it: ");
         String serviceNameToEdit = reader.nextLine();
+        
+        editServiceName(serviceNameToEdit);
+    }
 
-        for (int i = 0; i < serviceList.size(); i++) {
-            if (serviceList.get(i).getName().equals(serviceNameToEdit)) {
+    private static void clearBuffer(Scanner scanner) {
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
+    }
+    
+    private static void readAndSetServiceName(Service service) {
+    	System.out.println("Type the service name: ");
+        serviceName = reader.nextLine();
+
+        service.setName(serviceName);
+    }
+    
+    private static void editServiceName(String name) {
+    	for (int i = 0; i < serviceList.size(); i++) {
+            if (serviceList.get(i).getName().equals(name)) {
 
                 System.out.println("New service name: ");
                 String newServiceName = reader.nextLine();
@@ -56,11 +66,15 @@ public class ServiceManager {
             }
         }
     }
-
-
-    private static void clearBuffer(Scanner scanner) {
-        if (scanner.hasNextLine()) {
-            scanner.nextLine();
+    
+    private static void removeService(String nameToRemove) {
+    	for (int i = 0; i < serviceList.size(); i++) {
+            if (serviceList.get(i).getName().equals(nameToRemove)) {
+                serviceList.remove(i);
+            }
         }
     }
+    
+    
+    
 }

@@ -26,7 +26,10 @@ public class Customer {
         this.status = status;
         this.address = address;
     }
-
+    
+    public Customer(){
+    	
+    }
     public String getCpf() {
         return cpf;
     }

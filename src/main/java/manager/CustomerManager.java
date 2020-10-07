@@ -1,0 +1,242 @@
+package manager;
+
+import entities.Customer;
+import entities.Address;
+import enums.Status;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
+
+public class CustomerManager {
+
+    static ArrayList<Customer> customerList = new ArrayList<Customer>();
+    static String customerName;
+    static String customerCPF;
+    static String customerPhoneNumber;
+    static String customerEmail;
+    static Date customerBirthday;
+    static String customerBirthdayString;
+    static String customerGender;
+    static String customerMaritalStatus;
+    static Status customerStatus;
+    static Address customerAddress;
+    static String addressStreet;
+    static int addressNumber;
+    static String addressCity;
+    static String addressState;
+    static int optionStatus;
+    
+    static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    
+    static Scanner reader = new Scanner(System.in);
+
+    public static void insert() throws ParseException {
+    	Customer customer = new Customer();
+    	
+    	readAndSetCustomerName(customer);
+    	
+    	readAndSetCustomerCPF(customer);
+    	
+    	readAndSetCustomerPhoneNumber(customer);
+    	
+    	readAndSetCustomerBirthday(customer);
+    	
+    	readAndSetCustomerGender(customer);
+    	
+    	readAndSetEmail(customer);
+    	
+    	readAndSetMaritalStatus(customer);
+    	
+    	readAndSetStatus(customer);
+    	
+    	readAndSetAddress(customer);
+    	
+    	customerList.add(customer);
+
+        clearBuffer(reader);
+    }
+    
+    public static void consult() {
+        for (int i = 0; i < customerList.size(); i++) {
+            System.out.println("\nName: " + customerList.get(i).getName());
+            System.out.println("\nCPF: " + customerList.get(i).getCpf());
+            System.out.println("\nPhone Number: " + customerList.get(i).getPhoneNumber());
+            System.out.println("\nEmail: " + customerList.get(i).getEmail());
+            System.out.println("\nBirthday: " + customerList.get(i).getBirthday());
+            System.out.println("\nGender: " + customerList.get(i).getGender());
+            System.out.println("\nMarital Status: " + customerList.get(i).getMaritalStatus());
+            System.out.println("\nStatus: " + customerList.get(i).getStatus());
+            System.out.println("\nAddress: " + customerList.get(i).getAddress());
+            System.out.println("\n -------------------------------------");
+
+        }
+    }
+    
+    public static void remove() {
+        System.out.println("Type the customer CPF to remove it: ");
+        String costumerToRemove = reader.nextLine();
+
+        removeCustomer(costumerToRemove);
+        
+    }
+    
+    public static void edit(Customer customer) throws ParseException{
+        System.out.println("Type the customer CPF to edit it: ");
+        String customerToEdit = reader.nextLine();
+
+        for (int i = 0; i < customerList.size(); i++) {
+            if (customerList.get(i).getCpf().equals(customerToEdit) ) {
+            	menuEdit(customer);
+            }
+        }
+    }
+    
+    private static void clearBuffer(Scanner scanner) {
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
+    }
+    
+    private static void removeCustomer(String cpfToRemove) {
+    	for (int i = 0; i < customerList.size(); i++) {
+            if (customerList.get(i).getCpf().equals(cpfToRemove)) {
+            	customerList.remove(i);
+            }
+        }
+    }
+    
+    protected static void readAndSetCustomerName(Customer customer) {
+    	System.out.println("Type the customer name: ");
+        customerName = reader.nextLine();
+        customer.setName(customerName);
+    }
+    
+	protected static void readAndSetCustomerCPF(Customer customer){
+        System.out.println("Type the customer CPF: ");
+        customerCPF = reader.nextLine();	
+        customer.setCpf(customerCPF);
+	}
+	
+	protected static void readAndSetCustomerPhoneNumber(Customer customer){
+		System.out.println("Type the customer phone number: ");
+	    customerPhoneNumber = reader.nextLine();	
+        customer.setPhoneNumber(customerPhoneNumber);
+	}
+	
+	protected static void readAndSetCustomerBirthday(Customer customer) throws ParseException{
+	    System.out.println("Type the customer birthday: ");
+	    customerBirthdayString = reader.nextLine();	
+        customerBirthday = sdf.parse(customerBirthdayString);
+        customer.setBirthday(customerBirthday);
+	}
+	
+	protected static void readAndSetCustomerGender(Customer customer){
+		System.out.println("Type the customer gender: ");
+        customerGender = reader.nextLine();	
+        customer.setGender(customerGender);
+	}
+	
+	protected static void readAndSetEmail(Customer customer){
+		System.out.println("Type the customer email: ");
+	    customerEmail = reader.nextLine();	
+        customer.setEmail(customerEmail);
+	}
+	
+	protected static void readAndSetMaritalStatus(Customer customer){
+		System.out.println("Type the customer marital status: ");
+	    customerMaritalStatus = reader.nextLine();
+        customer.setMaritalStatus(customerMaritalStatus);
+	}
+	
+	protected static void readAndSetStatus(Customer customer){
+		do {
+	    	System.out.println("Define the customer status:  1 - ACTIVE | 2 - INACTIVE ");
+	        if (optionStatus == 1) {
+	        	customer.setStatus(Status.ACTIVE);
+	        } else if (optionStatus == 2){
+	        	customer.setStatus(Status.INACTIVE);
+	        }
+	    } while (optionStatus > 2 || optionStatus < 1);
+	}
+	
+	protected static void readAndSetAddress(Customer customer){
+		System.out.println("Type the customer address: ");
+	    
+	    System.out.println("Street: ");
+	    addressStreet = reader.nextLine();
+	    
+	    System.out.println("Number: ");
+	    addressNumber = reader.nextInt();
+	    
+	    System.out.println("City: ");
+	    addressCity = reader.nextLine();
+	    
+	    System.out.println("State: ");
+	    addressState = reader.nextLine();
+	    
+	    Address customerAddress = new Address(addressStreet, addressNumber, addressCity, addressState);
+        customer.setAddress(customerAddress);
+
+	}
+	
+	 private static void menuEdit(Customer customer) throws ParseException {
+		 int option = 1;
+		 int action = 1;
+
+		 while (option == 1) {
+				System.out.println("Choose the option: 1 - Edit name | 2 - Edit CPF | 3 - Edit Phone Number | 4 - Edit birthday | "
+						+ "5 - Edit gender | 6 - Edit address | 7 - Edit email | 8 - Edit marital status | 9 - Edit status");
+				
+				action = reader.nextInt();
+				
+				clearBuffer(reader);
+				
+				switch (action) {
+					case 1:
+						readAndSetCustomerName(customer);
+						break;
+						
+					case 2:
+						readAndSetCustomerCPF(customer);
+						break;
+						
+					case 3:
+						readAndSetCustomerPhoneNumber(customer);
+						break;
+						
+					case 4:
+						readAndSetCustomerBirthday(customer);
+						break;
+						
+					case 5:
+				    	readAndSetCustomerGender(customer);
+						break;
+						
+					case 6:
+						readAndSetAddress(customer);
+						break;	
+						
+					case 7:
+						readAndSetEmail(customer);
+						break;
+						
+					case 8:
+				    	readAndSetMaritalStatus(customer);
+						break;
+						
+					case 9:
+				    	readAndSetStatus(customer);
+						break;
+				    	
+				}
+				
+				System.out.println("Do you want to leave from the edit mode? 1 - NÃO  2 - SIM ");
+				option = reader.nextInt();
+				
+			}
+	 }
+	    
+}
