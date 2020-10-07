@@ -21,8 +21,6 @@ public class CustomerManager {
     static String customerBirthdayString;
     static String customerGender;
     static String customerMaritalStatus;
-    static Status customerStatus;
-    static Address customerAddress;
     static String addressStreet;
     static int addressNumber;
     static String addressCity;
@@ -77,19 +75,19 @@ public class CustomerManager {
     
     public static void remove() {
         System.out.println("Type the customer CPF to remove it: ");
-        String costumerToRemove = reader.nextLine();
+        String customerToRemove = reader.nextLine();
 
-        removeCustomer(costumerToRemove);
+        removeCustomer(customerToRemove);
         
     }
     
-    public static void edit(Customer customer) throws ParseException{
+    public static void edit() throws ParseException {
         System.out.println("Type the customer CPF to edit it: ");
         String customerToEdit = reader.nextLine();
 
         for (int i = 0; i < customerList.size(); i++) {
             if (customerList.get(i).getCpf().equals(customerToEdit) ) {
-            	menuEdit(customer);
+            	menuEdit(customerList.get(i));
             }
         }
     }
@@ -233,7 +231,7 @@ public class CustomerManager {
 				    	
 				}
 				
-				System.out.println("Do you want to leave from the edit mode? 1 - NÃO  2 - SIM ");
+				System.out.println("Do you want to leave from the edit mode? 1 - NÃƒO  2 - SIM ");
 				option = reader.nextInt();
 				
 			}
