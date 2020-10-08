@@ -21,8 +21,6 @@ public class CustomerManager {
     static String customerBirthdayString;
     static String customerGender;
     static String customerMaritalStatus;
-    static Status customerStatus;
-    static Address customerAddress;
     static String addressStreet;
     static int addressNumber;
     static String addressCity;
@@ -191,7 +189,7 @@ public class CustomerManager {
 
 	}
 	
-	 private static void menuEdit(Customer customer) throws ParseException {
+	private static void menuEdit(Customer customer) throws ParseException {
 		 int option = 1;
 		 int action = 1;
 
@@ -242,7 +240,7 @@ public class CustomerManager {
 				    	
 				}
 				
-				System.out.println("Do you want to leave from the edit mode? 1 - NÃO  2 - SIM ");
+				System.out.println("Do you want to leave from the edit mode? 1 - NO  2 - YES ");
 				option = reader.nextInt();
 				
 			}

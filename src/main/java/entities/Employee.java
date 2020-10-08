@@ -1,13 +1,15 @@
 package entities;
 
-public class Employees {
+public class Employee {
 
     private String cpf;
     private String name;
     private String phoneNumber;
     private String email;
 
-    public Employees(String cpf, String name, String phoneNumber, String email) {
+    public Employee() {}
+
+    public Employee(String cpf, String name, String phoneNumber, String email) {
         this.cpf = cpf;
         this.name = name;
         this.phoneNumber = phoneNumber;

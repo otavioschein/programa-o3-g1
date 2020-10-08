@@ -1,6 +1,7 @@
 package tests;
 
 import manager.CustomerManager;
+import manager.EmployeeManager;
 
 import java.text.ParseException;
 
@@ -8,10 +9,14 @@ import java.text.ParseException;
 public class tests1 {
 
     public static void main(String[] args) throws ParseException {
-        //CustomerManager cm = new CustomerManager();
+
         System.out.println("--------- TEST ----------\n");
-        CustomerManager.insert();
-        CustomerManager.consult();
+        EmployeeManager.insert();
+        EmployeeManager.insert();
+        EmployeeManager.consult();
+        EmployeeManager.edit();
+        EmployeeManager.remove();
+        EmployeeManager.consult();
 
     }
     
