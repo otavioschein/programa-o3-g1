@@ -50,7 +50,7 @@ public class EmployeeManager {
 
     public static void remove() {
         clearBuffer(reader);
-        System.out.println("Type the employee CPF to remove it: ");
+        System.out.println("Type the customer CPF to remove it: ");
         String cpfEmployeeToRemove = reader.nextLine();
 
         removeCustomer(cpfEmployeeToRemove);
@@ -70,25 +70,25 @@ public class EmployeeManager {
     }
 
     protected static void readAndSetEmployeeName(Employee employee) {
-        System.out.println("Type the employee name: ");
+        System.out.println("Type the customer name: ");
         employeeName = reader.nextLine();
         employee.setName(employeeName);
     }
 
     protected static void readAndSetEmployeeCPF(Employee employee){
-        System.out.println("Type the employee CPF: ");
+        System.out.println("Type the customer CPF: ");
         employeeCpf = reader.nextLine();
         employee.setCpf(employeeCpf);
     }
 
     protected static void readAndSetEmployeePhoneNumber(Employee employee){
-        System.out.println("Type the employee phone number: ");
+        System.out.println("Type the customer phone number: ");
         employeePhoneNumber = reader.nextLine();
         employee.setPhoneNumber(employeePhoneNumber);
     }
 
     protected static void readAndSetEmail(Employee employee){
-        System.out.println("Type the employee email: ");
+        System.out.println("Type the customer email: ");
         employeeEmail = reader.nextLine();
         employee.setEmail(employeeEmail);
     }
