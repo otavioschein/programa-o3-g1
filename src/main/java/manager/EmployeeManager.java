@@ -70,25 +70,25 @@ public class EmployeeManager {
     }
 
     protected static void readAndSetEmployeeName(Employee employee) {
-        System.out.println("Type the customer name: ");
+        System.out.println("Type the employee name: ");
         employeeName = reader.nextLine();
         employee.setName(employeeName);
     }
 
     protected static void readAndSetEmployeeCPF(Employee employee){
-        System.out.println("Type the customer CPF: ");
+        System.out.println("Type the employee CPF: ");
         employeeCpf = reader.nextLine();
         employee.setCpf(employeeCpf);
     }
 
     protected static void readAndSetEmployeePhoneNumber(Employee employee){
-        System.out.println("Type the customer phone number: ");
+        System.out.println("Type the employee phone number: ");
         employeePhoneNumber = reader.nextLine();
         employee.setPhoneNumber(employeePhoneNumber);
     }
 
     protected static void readAndSetEmail(Employee employee){
-        System.out.println("Type the customer email: ");
+        System.out.println("Type the employee email: ");
         employeeEmail = reader.nextLine();
         employee.setEmail(employeeEmail);
     }
