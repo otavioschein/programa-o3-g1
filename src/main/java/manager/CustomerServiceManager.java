@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 
-import entities.Customer;
 import entities.CustomerService;
-import entities.Employee;
-import manager.CustomerManager;
 import enums.CustomerServiceStatus;
 
 public class CustomerServiceManager {
@@ -20,14 +17,16 @@ public class CustomerServiceManager {
     static int optionStatus;
     static String customerServiceDate;
     static Date customerServiceDateFormatted;
-    static Date customerServiceDateFormattedFinal;
     static Date customerServiceDateFormattedToRemove;
     static Date customerServiceDateFormattedToEdit;
+    static Date customerServiceHourFormattedToEdit;
+    static Date customerServiceHourFormattedToRemove;
     static String serviceDescription;
     static String customerServiceCpf;
     static String employeeServiceCpf;
     
-    static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    static SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm"); 
 
     private static void clearBuffer(Scanner scanner) {
         if (scanner.hasNextLine()) {
@@ -40,6 +39,8 @@ public class CustomerServiceManager {
         CustomerService customerService = new CustomerService();
 
         readAndSetCustomerServiceDate(customerService);
+        
+        readAndSetCustomerServiceHour(customerService);
         
         readAndSetCustomerServiceDescription(customerService);
         
@@ -59,6 +60,7 @@ public class CustomerServiceManager {
 
         for (int i = 0; i < customerServiceList.size(); i++) {
             System.out.println("\nDate: " + customerServiceList.get(i).getDateOfService());
+            System.out.println("\nHour: " + customerServiceList.get(i).getHourOfService());
             System.out.println("Customer: " + customerServiceList.get(i).getCustomer().getName());
             System.out.println("Employee: " + customerServiceList.get(i).getEmployee().getName());
             System.out.println("Status: " + customerServiceList.get(i).getStatus());
@@ -67,11 +69,17 @@ public class CustomerServiceManager {
     }
     
     public static void remove() throws ParseException {
+    	System.out.println("Remove a customer service: ");
 		clearBuffer(reader);
-        System.out.println("Type the customer service date to remove it: ");
+        System.out.println("\n	Type the customer service date: ");
         String costumerServiceDateToRemove = reader.nextLine();
         customerServiceDateFormattedToRemove = sdf.parse(costumerServiceDateToRemove);
-        removeCustomerService(customerServiceDateFormatted);
+       
+        System.out.println("\n	Type the customer service hour: ");
+        String costumerServiceHourToRemove = reader.nextLine();
+        customerServiceHourFormattedToRemove = sdf2.parse(costumerServiceHourToRemove);
+        
+        removeCustomerService(customerServiceDateFormattedToRemove, customerServiceHourFormattedToRemove);
         
     }
     
@@ -79,38 +87,62 @@ public class CustomerServiceManager {
         System.out.println("Type the customer service date to edit it: ");
         String serviceDateToEdit = reader.nextLine();
         customerServiceDateFormattedToEdit = sdf.parse(serviceDateToEdit);
+        
+        System.out.println("\nType the customer service hour to edit it: ");
+        String serviceHourToEdit = reader.nextLine();
+        customerServiceHourFormattedToEdit = sdf2.parse(serviceHourToEdit);
 
         for (int i = 0; i < customerServiceList.size(); i++) {
-        	if (customerServiceList.get(i).getDateOfService().equals(customerServiceDateFormattedToEdit)) {
-            	menuEdit(customerServiceList.get(i));
+        	if (customerServiceList.get(i).getDateOfService().equals(customerServiceDateFormattedToEdit) && 
+        			customerServiceList.get(i).getHourOfService().equals(customerServiceHourFormattedToEdit)) {
+            			menuEdit(customerServiceList.get(i));
             }
         }
     }
     
-    private static void removeCustomerService(Date serviceDateToRemove) {
+    private static void removeCustomerService(Date serviceDateToRemove, Date serviceHourToRemove) throws ParseException {
+    	boolean validate = false;
     	for (int i = 0; i < customerServiceList.size(); i++) {
-            if (customerServiceList.get(i).getDateOfService().equals(serviceDateToRemove)) {
-            	customerServiceList.remove(i);
+            if (customerServiceList.get(i).getDateOfService().equals(serviceDateToRemove) &&
+            		customerServiceList.get(i).getHourOfService().equals(serviceHourToRemove)) {
+            			customerServiceList.remove(i);
+            			validate = true;
             }
         }
+    	
+    	if (validate == false) {
+    		System.out.println("Customer service at this time does not exist! Try again.");
+    		remove();
+    	}
     }
     
     protected static void readAndSetCustomerServiceDate(CustomerService customerService) throws ParseException{
-    	boolean state;
+
 	    System.out.println("Type the service date: ");
 	    customerServiceDate = reader.nextLine();	
 	    customerServiceDateFormatted = sdf.parse(customerServiceDate);
+	    	   
+	    customerService.setDateOfService(customerServiceDateFormatted);
+	    
+	}
+    
+    protected static void readAndSetCustomerServiceHour(CustomerService customerService) throws ParseException{
+
+    	boolean state;
+	    System.out.println("Type the service hour: ");
+	    customerServiceDate = reader.nextLine();	
+	    customerServiceDateFormatted = sdf2.parse(customerServiceDate);
 	    do {
 	    	if (customerServiceList.contains(customerServiceDateFormatted)) {
-	    		System.out.println("Retype the service date as the previous one already exists: ");
+	    		System.out.println("Retype the service hour as the previous one already exists: ");
 	    	    customerServiceDate = reader.nextLine();	
-	    	    customerServiceDateFormatted = sdf.parse(customerServiceDate);
+	    	    customerServiceDateFormatted = sdf2.parse(customerServiceDate);
 		    } else {
 		    	state = true;
 		    }
 	    } while (state = false);
 	   
-	    customerService.setDateOfService(customerServiceDateFormatted);
+	    customerService.setHourOfService(customerServiceDateFormatted);
 	    
 	}
     
@@ -138,7 +170,7 @@ public class CustomerServiceManager {
     
     protected static void readAndSetCustomerServiceCustomerName(CustomerService customerService) throws ParseException{
         clearBuffer(reader);
-	    System.out.println("Type the customer service Cpf: ");
+	    System.out.println("Type the customer Cpf to the service: ");
 	    customerServiceCpf = reader.nextLine();	
 	    boolean verification = false;
 	    int i;
@@ -148,32 +180,14 @@ public class CustomerServiceManager {
             	verification = true;
             }
         }
-	    if (verification = false) {
+	    
+	    if (verification == false) {
 	    	CustomerManager.insert();
 	    	customerService.setCustomer(CustomerManager.customerList.get(i++));
+	    	CustomerManager.consult();
 	    }
 	    
     }
-	    /*if (CustomerManager.customerList.contains(customerServiceCpf)) {
-	    	i = CustomerManager.customerList.indexOf(customerServiceCpf);
-        	customerService.setCustomer(CustomerManager.customerList.get(i));
-        } else {
-        	CustomerManager.insert();
-        }
-    
-	}
-    
-    /*protected static void readAndSetCustomerServiceCustomerNameToEdit(CustomerService customerService) throws ParseException{
-        clearBuffer(reader);
-	    System.out.println("Type the customer service Cpf: ");
-	    customerServiceCpf = reader.nextLine();	
-	    
-	    for (int i = 0; i < CustomerManager.customerList.size(); i++) {
-            if (CustomerManager.customerList.get(i).getCpf().equals(customerServiceCpf)) {
-            	CustomerManager.customerList(CustomerManager.customerList.get(i));
-            }
-        }
-	}*/
     
     protected static void readAndSetCustomerServiceEmployee(CustomerService customerService) throws ParseException{
     	System.out.println("Type the employee service Cpf: ");
@@ -193,8 +207,8 @@ public class CustomerServiceManager {
 		 int action = 1;
 
 		 while (option == 1) {
-				System.out.println("Choose the option: 1 - Edit date | 2 - Edit description | 3 - Edit Status | 4 - Edit customer name | "
-						+ "5 - Edit customer service employee");
+				System.out.println("Choose the option: 1 - Edit date | 2 - Edit hour | 3 - Edit description | 4 - Edit Status | 5 - Edit customer name | "
+						+ "6 - Edit customer service employee");
 				
 				action = reader.nextInt();
 				
@@ -206,18 +220,22 @@ public class CustomerServiceManager {
 						break;
 						
 					case 2:
-						readAndSetCustomerServiceDescription(customerService);
+						readAndSetCustomerServiceHour(customerService);
 						break;
 						
 					case 3:
-						readAndSetCustomerServiceStatus(customerService);
+						readAndSetCustomerServiceDescription(customerService);
 						break;
 						
 					case 4:
-						readAndSetCustomerServiceCustomerName(customerService);
+						readAndSetCustomerServiceStatus(customerService);
 						break;
 						
 					case 5:
+						readAndSetCustomerServiceCustomerName(customerService);
+						break;
+						
+					case 6:
 						readAndSetCustomerServiceEmployee(customerService);
 						break;
 				    	

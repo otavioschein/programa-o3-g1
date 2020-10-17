@@ -6,15 +6,17 @@ import enums.CustomerServiceStatus;
 public class CustomerService {
 	
 	private Date dateOfService;
+	private Date hourOfService;
 	private Customer customer;
 	private Employee employee;
 	private CustomerServiceStatus status;
 	private String description;
 	
-	public CustomerService(Date dateOfService, Customer customer, Employee employee, CustomerServiceStatus status,
+	public CustomerService(Date dateOfService, Date hourOfService, Customer customer, Employee employee, CustomerServiceStatus status,
 			String description) {
 		
 		this.dateOfService = dateOfService;
+		this.hourOfService = hourOfService;
 		this.customer = customer;
 		this.employee = employee;
 		this.status = status;
@@ -31,6 +33,14 @@ public class CustomerService {
 
 	public void setDateOfService(Date dateOfService) {
 		this.dateOfService = dateOfService;
+	}
+
+	public Date getHourOfService() {
+		return hourOfService;
+	}
+
+	public void setHourOfService(Date hourOfService) {
+		this.hourOfService = hourOfService;
 	}
 
 	public Customer getCustomer() {
@@ -64,8 +74,5 @@ public class CustomerService {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
-	
 	
 }

@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class CustomerManager {
 
-    static ArrayList<Customer> customerList = new ArrayList<Customer>();
+    public static ArrayList<Customer> customerList = new ArrayList<Customer>();
     static String customerName;
     static String customerCPF;
     static String customerPhoneNumber;

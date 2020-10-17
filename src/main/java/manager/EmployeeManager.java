@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class EmployeeManager {
 
-    static ArrayList<Employee> employeeList = new ArrayList<Employee>();
+    public static ArrayList<Employee> employeeList = new ArrayList<Employee>();
     static String employeeCpf;
     static String employeeName;
     static String employeeEmail;
