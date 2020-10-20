@@ -36,7 +36,6 @@ public class EmployeeManager {
 
         employeeList.add(employee);
 
-        clearBuffer(reader);
     }
 
     public static void consult() {
@@ -133,6 +132,39 @@ public class EmployeeManager {
 
             System.out.println("Do you want to leave from the edit mode? 1 - NO  2 - YES ");
             option = reader.nextInt();
+
+        }
+    }
+        public static void menuManager() throws ParseException {
+            int option = 1;
+            int action = 1;
+
+            while (option == 1) {
+                System.out.println("Choose the option: 1 - Add employee | 2 - Consult employees | 3 - Remove employee | 4 - Edit employee");
+
+                action = reader.nextInt();
+
+                switch (action) {
+	                case 1:
+	                    insert();
+	                    break;
+	
+	                case 2:
+	                    consult();
+	                    break;
+	
+	                case 3:
+	                    remove();
+	                    break;
+	
+	                case 4:
+	                    edit();
+	                    break;
+
+                }
+
+                System.out.println("Do you want to leave from the Employee mode? 1 - NO  2 - YES ");
+                option = reader.nextInt();
 
         }
     }

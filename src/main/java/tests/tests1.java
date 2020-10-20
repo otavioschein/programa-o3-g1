@@ -2,6 +2,7 @@ package tests;
 
 import manager.CustomerManager;
 import manager.EmployeeManager;
+import manager.ServiceManager;
 import manager.CustomerServiceManager;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.text.ParseException;
 import entities.Address;
 import entities.Customer;
 import entities.Employee;
+import entities.Service;
 import enums.Status;
 
 public class tests1 {
@@ -26,9 +28,12 @@ public class tests1 {
     	
     	Customer customer2 = new Customer("33", "otavio", "33", "otavio@", date, "m", "c", Status.ACTIVE, address);
     	
+    	Service service1 = new Service("arrumar");
+    	
     	EmployeeManager.employeeList.add(employee);
     	CustomerManager.customerList.add(customer1);
     	CustomerManager.customerList.add(customer2);
+    	ServiceManager.serviceList.add(service1);
     	
         System.out.println("--------- TEST ----------\n");
         
@@ -36,8 +41,8 @@ public class tests1 {
         
         CustomerManager.consult();
         
-        CustomerServiceManager.insert();
-        CustomerServiceManager.insert();
+//        CustomerServiceManager.insert();
+//        CustomerServiceManager.insert();
         CustomerServiceManager.insert();
      
         CustomerServiceManager.consultSchedule();

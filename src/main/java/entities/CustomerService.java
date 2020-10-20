@@ -10,10 +10,10 @@ public class CustomerService {
 	private Customer customer;
 	private Employee employee;
 	private CustomerServiceStatus status;
-	private String description;
+	private Service description;
 	
 	public CustomerService(Date dateOfService, Date hourOfService, Customer customer, Employee employee, CustomerServiceStatus status,
-			String description) {
+			Service description) {
 		
 		this.dateOfService = dateOfService;
 		this.hourOfService = hourOfService;
@@ -67,11 +67,11 @@ public class CustomerService {
 		this.status = status;
 	}
 
-	public String getDescription() {
+	public Service getDescription() {
 		return description;
 	}
 
-	public void setDescription(Service service) {
+	public void setDescription(Service description) {
 		this.description = description;
 	}
 	

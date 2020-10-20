@@ -38,7 +38,7 @@ public class CustomerServiceManager {
     }
 
     public static void insert() throws ParseException {
-        clearBuffer(reader);
+      
         CustomerService customerService = new CustomerService();
 
         readAndSetCustomerServiceDate(customerService);
@@ -55,8 +55,6 @@ public class CustomerServiceManager {
 
 
         customerServiceList.add(customerService);
-
-        clearBuffer(reader);
     }
     
     public static void consult() {
@@ -190,7 +188,6 @@ public class CustomerServiceManager {
 	    if (verification == false) {
 	    	ServiceManager.insert();
 	    	customerService.setDescription(ServiceManager.serviceList.get(j++));
-	    	ServiceManager.consult();
 	    }
 	    
 	}
@@ -227,7 +224,6 @@ public class CustomerServiceManager {
 	    if (verification == false) {
 	    	CustomerManager.insert();
 	    	customerService.setCustomer(CustomerManager.customerList.get(i++));
-	    	CustomerManager.consult();
 	    }
 	    
     }
@@ -246,13 +242,12 @@ public class CustomerServiceManager {
 	    if (verification == false) {
 	    	EmployeeManager.insert();
 	    	customerService.setEmployee(EmployeeManager.employeeList.get(j++));
-	    	CustomerManager.consult();
 	    }
 	}
 
     public static void consultSchedule() throws ParseException {
-    	clearBuffer(reader);
-    	System.out.println("\nEnter the date to consult the schedule\n ");
+    	//clearBuffer(reader);
+    	System.out.println("\nEnter the date to consult the schedule: ");
         String costumerScheduleDate = reader.nextLine();
         customerScheduledDateFormatted = sdf.parse(costumerScheduleDate);
         
@@ -269,7 +264,7 @@ public class CustomerServiceManager {
                 System.out.println("Customer: " + customerServiceList.get(i).getCustomer().getName());
                 System.out.println("Employee: " + customerServiceList.get(i).getEmployee().getName());
                 System.out.println("Status: " + customerServiceList.get(i).getStatus());
-                System.out.println("Description: " + customerServiceList.get(i).getDescription());	
+                System.out.println("Description: " + customerServiceList.get(i).getDescription().getName());	
                 System.out.println("------------------------------------------------");
             }
         }
@@ -321,4 +316,41 @@ public class CustomerServiceManager {
 				
 			}
 	 }
+    
+    public static void menuManager() throws ParseException {
+        int option = 1;
+        int action = 1;
+
+        while (option == 1) {
+            System.out.println("Choose the option: 1 - Add Customer Service schedule | 2 - Consult Customer Service schedule | 3 - Remove Customer Service schedule | 4 - Edit Customer Service schedule");
+
+            action = reader.nextInt();
+
+            clearBuffer(reader);
+
+            switch (action) {
+                case 1:
+                    insert();
+                    break;
+
+                case 2:
+                    consult();
+                    break;
+
+                case 3:
+                    remove();
+                    break;
+
+                case 4:
+                    edit();
+                    break;
+
+            }
+
+            System.out.println("Do you want to leave from the Customer Service mode? 1 - NO  2 - YES ");
+            option = reader.nextInt();
+
+    }
+        
+    }
 }

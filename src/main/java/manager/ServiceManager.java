@@ -2,12 +2,13 @@ package manager;
 
 import entities.Service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ServiceManager {
 
-    static ArrayList<Service> serviceList = new ArrayList<Service>();
+    public static ArrayList<Service> serviceList = new ArrayList<Service>();
     static String serviceName;
     static Scanner reader = new Scanner(System.in);
 
@@ -34,7 +35,7 @@ public class ServiceManager {
         removeService(serviceNameToRemove);
     }
 
-    public static void edit(Service service){
+    public static void edit(){
         System.out.println("Type the service name to edit it: ");
         String serviceNameToEdit = reader.nextLine();
         
@@ -75,6 +76,42 @@ public class ServiceManager {
         }
     }
     
+    public static void menuManager() throws ParseException {
+        int option = 1;
+        int action = 1;
+
+        while (option == 1) {
+            System.out.println("Choose the option: 1 - Add Service | 2 - Consult Service | 3 - Remove Service | 4 - Edit Service");
+
+            action = reader.nextInt();
+
+            clearBuffer(reader);
+
+            switch (action) {
+                case 1:
+                    insert();
+                    break;
+
+                case 2:
+                    consult();
+                    break;
+
+                case 3:
+                    remove();
+                    break;
+
+                case 4:
+                    edit();
+                    break;
+
+            }
+
+            System.out.println("Do you want to leave from the Service mode? 1 - NO  2 - YES ");
+            option = reader.nextInt();
+
+    }
+    
+    }
     
     
 }

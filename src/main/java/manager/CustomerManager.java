@@ -245,5 +245,41 @@ public class CustomerManager {
 				
 			}
 	 }
+	
+	public static void menuManager() throws ParseException {
+        int option = 1;
+        int action = 1;
+
+        while (option == 1) {
+            System.out.println("Choose the option: 1 - Add Customer | 2 - Consult Customer | 3 - Remove Customer | 4 - Edit Customer");
+
+            action = reader.nextInt();
+
+            clearBuffer(reader);
+
+            switch (action) {
+                case 1:
+                    insert();
+                    break;
+
+                case 2:
+                    consult();
+                    break;
+
+                case 3:
+                    remove();
+                    break;
+
+                case 4:
+                    edit();
+                    break;
+
+            }
+
+            System.out.println("Do you want to leave from the Customer mode? 1 - NO  2 - YES ");
+            option = reader.nextInt();
+
+    }
+	}
 	    
 }
