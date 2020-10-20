@@ -16,11 +16,14 @@ public class CustomerServiceManager {
     static Scanner reader = new Scanner(System.in);
     static int optionStatus;
     static String customerServiceDate;
+    static String customerServiceHour;
     static Date customerServiceDateFormatted;
     static Date customerServiceDateFormattedToRemove;
     static Date customerServiceDateFormattedToEdit;
     static Date customerServiceHourFormattedToEdit;
     static Date customerServiceHourFormattedToRemove;
+    static Date customerScheduledDateFormatted;
+    static Date customerServiceHourFormatted;
     static String serviceDescription;
     static String customerServiceCpf;
     static String employeeServiceCpf;
@@ -59,8 +62,8 @@ public class CustomerServiceManager {
     public static void consult() {
 
         for (int i = 0; i < customerServiceList.size(); i++) {
-            System.out.println("\nDate: " + customerServiceList.get(i).getDateOfService());
-            System.out.println("\nHour: " + customerServiceList.get(i).getHourOfService());
+            System.out.println("\nDate: " + sdf.format(customerServiceList.get(i).getDateOfService()));
+            System.out.println("Hour: " + sdf2.format(customerServiceList.get(i).getHourOfService()));
             System.out.println("Customer: " + customerServiceList.get(i).getCustomer().getName());
             System.out.println("Employee: " + customerServiceList.get(i).getEmployee().getName());
             System.out.println("Status: " + customerServiceList.get(i).getStatus());
@@ -69,13 +72,13 @@ public class CustomerServiceManager {
     }
     
     public static void remove() throws ParseException {
-    	System.out.println("Remove a customer service: ");
+    	System.out.println("\nRemove a customer service \n ");
 		clearBuffer(reader);
-        System.out.println("\n	Type the customer service date: ");
+        System.out.println("Type the customer service date: ");
         String costumerServiceDateToRemove = reader.nextLine();
         customerServiceDateFormattedToRemove = sdf.parse(costumerServiceDateToRemove);
        
-        System.out.println("\n	Type the customer service hour: ");
+        System.out.println("Type the customer service hour: ");
         String costumerServiceHourToRemove = reader.nextLine();
         customerServiceHourFormattedToRemove = sdf2.parse(costumerServiceHourToRemove);
         
@@ -128,30 +131,70 @@ public class CustomerServiceManager {
     
     protected static void readAndSetCustomerServiceHour(CustomerService customerService) throws ParseException{
 
-    	boolean state;
-	    System.out.println("Type the service hour: ");
-	    customerServiceDate = reader.nextLine();	
-	    customerServiceDateFormatted = sdf2.parse(customerServiceDate);
-	    do {
-	    	if (customerServiceList.contains(customerServiceDateFormatted)) {
-	    		System.out.println("Retype the service hour as the previous one already exists: ");
-	    	    customerServiceDate = reader.nextLine();	
-	    	    customerServiceDateFormatted = sdf2.parse(customerServiceDate);
-		    } else {
-		    	state = true;
-		    }
-	    } while (state = false);
-	   
-	    customerService.setHourOfService(customerServiceDateFormatted);
+    	boolean validationHourRange;
+	    boolean validationScheduled;
 	    
+	    do {
+	    	System.out.println("Type the service hour: ");
+	    	customerServiceHour = reader.nextLine();	
+		    customerServiceHourFormatted = sdf2.parse(customerServiceHour);
+		    
+		    validationHourRange = validateHourRange(customerServiceHourFormatted);
+		    
+		    validationScheduled = isAlreadyScheduled(customerServiceHourFormatted);
+		    
+	    } while (validationHourRange == false || validationScheduled == true);
+	   
+	    customerService.setHourOfService(customerServiceHourFormatted);
 	}
     
+    protected static boolean validateHourRange(Date hourSelected) throws ParseException{
+
+    	boolean state = false;
+	    
+    	if (hourSelected.equals(sdf2.parse("08:00")) || hourSelected.equals(sdf2.parse("10:00")) || 
+    			hourSelected.equals(sdf2.parse("14:00"))|| hourSelected.equals(sdf2.parse("16:00"))){
+    		
+    		state = true;
+    	} else {
+    		System.out.println("Hour selected does not match parameters. Type again.");
+    	}
+    	return state;
+    }
+    
+    protected static boolean isAlreadyScheduled(Date hourSelected) throws ParseException{
+
+    	boolean state = false;
+	    
+    	for (int i = 0; i < customerServiceList.size(); i++) {
+            if (customerServiceList.get(i).getHourOfService().equals(hourSelected) && customerServiceList.get(i).getDateOfService().equals(customerServiceDateFormatted) ) {
+            	System.out.println("There is already a Customer Service scheduled for this time. Type again.");
+            	state = true;
+            }
+    	}
+    	return state;
+    }
+    	
     protected static void readAndSetCustomerServiceDescription(CustomerService customerService){
 	    System.out.println("Type the service description: ");
 	    serviceDescription = reader.nextLine();	
 	
-	    customerService.setDescription(serviceDescription);
+	    boolean verification = false;
+	    int j;
+	    for (j = 0; j < ServiceManager.serviceList.size(); j++) {
+            if (ServiceManager.serviceList.get(j).getName().equals(serviceDescription)) {
+            	customerService.setDescription(ServiceManager.serviceList.get(j));
+            	verification = true;
+            } 
+        }
+	    if (verification == false) {
+	    	ServiceManager.insert();
+	    	customerService.setDescription(ServiceManager.serviceList.get(j++));
+	    	ServiceManager.consult();
+	    }
+	    
 	}
+    
     
     protected static void readAndSetCustomerServiceStatus(CustomerService customerService){
 		do {
@@ -192,16 +235,48 @@ public class CustomerServiceManager {
     protected static void readAndSetCustomerServiceEmployee(CustomerService customerService) throws ParseException{
     	System.out.println("Type the employee service Cpf: ");
 	    employeeServiceCpf = reader.nextLine();	
-	    
-	    for (int i = 0; i < EmployeeManager.employeeList.size(); i++) {
-            if (EmployeeManager.employeeList.get(i).getCpf().equals(employeeServiceCpf)) {
-            	customerService.setEmployee(EmployeeManager.employeeList.get(i));
-            } else {
-            	EmployeeManager.insert();
-            }
+	    boolean verification = false;
+	    int j;
+	    for (j = 0; j < EmployeeManager.employeeList.size(); j++) {
+            if (EmployeeManager.employeeList.get(j).getCpf().equals(employeeServiceCpf)) {
+            	customerService.setEmployee(EmployeeManager.employeeList.get(j));
+            	verification = true;
+            } 
         }
+	    if (verification == false) {
+	    	EmployeeManager.insert();
+	    	customerService.setEmployee(EmployeeManager.employeeList.get(j++));
+	    	CustomerManager.consult();
+	    }
 	}
 
+    public static void consultSchedule() throws ParseException {
+    	clearBuffer(reader);
+    	System.out.println("\nEnter the date to consult the schedule\n ");
+        String costumerScheduleDate = reader.nextLine();
+        customerScheduledDateFormatted = sdf.parse(costumerScheduleDate);
+        
+        showSchedule(customerScheduledDateFormatted);
+        
+    }
+    
+    
+    public static void showSchedule(Date customerScheduledDateFormatted) {
+
+    	for (int i = 0; i < customerServiceList.size(); i++) {
+            if (customerServiceList.get(i).getDateOfService().equals(customerScheduledDateFormatted)) {
+                System.out.println("\nHour: " + sdf2.format(customerServiceList.get(i).getHourOfService()));
+                System.out.println("Customer: " + customerServiceList.get(i).getCustomer().getName());
+                System.out.println("Employee: " + customerServiceList.get(i).getEmployee().getName());
+                System.out.println("Status: " + customerServiceList.get(i).getStatus());
+                System.out.println("Description: " + customerServiceList.get(i).getDescription());	
+                System.out.println("------------------------------------------------");
+            }
+        }
+       
+    }
+    
+    
     private static void menuEdit(CustomerService customerService) throws ParseException {
 		 int option = 1;
 		 int action = 1;

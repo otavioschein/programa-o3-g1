@@ -37,9 +37,10 @@ public class tests1 {
         CustomerManager.consult();
         
         CustomerServiceManager.insert();
-        CustomerServiceManager.consult();
-        CustomerServiceManager.edit();
-        CustomerServiceManager.consult();
+        CustomerServiceManager.insert();
+        CustomerServiceManager.insert();
+     
+        CustomerServiceManager.consultSchedule();
 
     }
     
