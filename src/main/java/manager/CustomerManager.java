@@ -26,6 +26,7 @@ public class CustomerManager {
     static String addressCity;
     static String addressState;
     static int optionStatus;
+    static String customerServiceCpf;
     
     static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     
@@ -189,6 +190,72 @@ public class CustomerManager {
 
 	}
 	
+	public static void readCpfToconsultServicesRelatedToCustomer() {
+		System.out.println("Insert the customer CPF to consult his/her services: ");
+		customerServiceCpf = reader.nextLine();
+		consultServicesRelatedToCustomer(customerServiceCpf);
+	}
+	
+	public static void consultServicesRelatedToCustomer(String customerServiceCpf) {
+    	
+        for (int i = 0; i < customerList.size(); i++) {
+        	
+        	if (customerList.get(i).getCpf().equals(customerServiceCpf)) {
+        		
+        		Customer temporaryCustomer = customerList.get(i);
+        		
+        		for (int j = 0; j < temporaryCustomer.serviceListForCustomer.size(); j++) {
+        			System.out.println(temporaryCustomer.serviceListForCustomer.get(j).getName());
+        		}
+        	}
+
+        }
+    }
+	
+	public static void consultActive() {
+    	
+        for (int i = 0; i < customerList.size(); i++) {
+        	if(customerList.get(i).getStatus() == Status.ACTIVE) {
+        		System.out.println("\nName: " + customerList.get(i).getName());
+                System.out.println("CPF: " + customerList.get(i).getCpf());
+                System.out.println("Phone Number: " + customerList.get(i).getPhoneNumber());
+                System.out.println("Email: " + customerList.get(i).getEmail());
+                System.out.println("Birthday: " + sdf.format(customerList.get(i).getBirthday()));
+                System.out.println("Gender: " + customerList.get(i).getGender());
+                System.out.println("Marital Status: " + customerList.get(i).getMaritalStatus());
+                System.out.println("Status: " + customerList.get(i).getStatus());
+                System.out.println("Address: ");
+                System.out.println("	City: " + customerList.get(i).getAddress().getCity());
+                System.out.println("	State: " + customerList.get(i).getAddress().getState());
+                System.out.println("	Street: " + customerList.get(i).getAddress().getStreet());
+                System.out.println("	Number: " + customerList.get(i).getAddress().getNumber());
+                System.out.println("\n -------------------------------------");
+        	}
+        }
+    }
+	
+	public static void consultInactive() {
+    	
+        for (int i = 0; i < customerList.size(); i++) {
+        	if(customerList.get(i).getStatus() == Status.INACTIVE) {
+        		System.out.println("\nName: " + customerList.get(i).getName());
+                System.out.println("CPF: " + customerList.get(i).getCpf());
+                System.out.println("Phone Number: " + customerList.get(i).getPhoneNumber());
+                System.out.println("Email: " + customerList.get(i).getEmail());
+                System.out.println("Birthday: " + sdf.format(customerList.get(i).getBirthday()));
+                System.out.println("Gender: " + customerList.get(i).getGender());
+                System.out.println("Marital Status: " + customerList.get(i).getMaritalStatus());
+                System.out.println("Status: " + customerList.get(i).getStatus());
+                System.out.println("Address: ");
+                System.out.println("	City: " + customerList.get(i).getAddress().getCity());
+                System.out.println("	State: " + customerList.get(i).getAddress().getState());
+                System.out.println("	Street: " + customerList.get(i).getAddress().getStreet());
+                System.out.println("	Number: " + customerList.get(i).getAddress().getNumber());
+                System.out.println("\n -------------------------------------");
+        	}
+        }
+    }
+	
 	private static void menuEdit(Customer customer) throws ParseException {
 		 int option = 1;
 		 int action = 1;
@@ -251,7 +318,8 @@ public class CustomerManager {
         int action = 1;
 
         while (option == 1) {
-            System.out.println("Choose the option: 1 - Add Customer | 2 - Consult Customer | 3 - Remove Customer | 4 - Edit Customer");
+            System.out.println("\n| 1 - Add Customer \n| 2 - Consult Customer \n| 3 - Remove Customer \n| 4 - Edit Customer \n| "
+            		+ "5 - Consult active customers \n| 6 - Consult inactive customers \n| 7 - Consult services related to customer \n");
 
             action = reader.nextInt();
 
@@ -273,6 +341,16 @@ public class CustomerManager {
                 case 4:
                     edit();
                     break;
+                    
+                case 5:
+                    consultActive();
+                    break;
+                case 6:
+                    consultInactive();
+                    break;
+                case 7:
+                	readCpfToconsultServicesRelatedToCustomer();
+                	break;
 
             }
 

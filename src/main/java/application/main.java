@@ -31,21 +31,24 @@ public class main {
     	
     	Customer customer2 = new Customer("33", "otavio", "33", "otavio@", date, "m", "c", Status.ACTIVE, address);
     	
+    	Customer customer3 = new Customer("43", "otÁvio", "43", "otavio@", date, "m", "c", Status.INACTIVE, address);
+    	
     	Service service1 = new Service("arrumar");
     	
     	EmployeeManager.employeeList.add(employee);
     	CustomerManager.customerList.add(customer1);
     	CustomerManager.customerList.add(customer2);
+    	CustomerManager.customerList.add(customer3);
+
     	ServiceManager.serviceList.add(service1);
     	
-		
 		while (option != 0) {
 			System.out.println("----------------------------------------");
 	        System.out.println("                  MENU");
 	        System.out.println("----------------------------------------");
 	        
 			System.out.println("| 1 - Schedule service \n| 2 - Show schedule for specific date \n| 3 - Module Employee \n| 4 - Module Customer \n| 5 - Module Service \n| "
-					+ "6 - Module Customer Service Schedule \n| 0 - Exit application \n");
+					+ "6 - Module Customer Service Schedule \n| 0 - Exit application");
 			
 			System.out.printf("--> ");
 			option = reader.nextInt();

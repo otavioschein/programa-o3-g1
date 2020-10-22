@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 
+import entities.Customer;
 import entities.CustomerService;
 import enums.CustomerServiceStatus;
 
@@ -53,8 +54,11 @@ public class CustomerServiceManager {
 
     	readAndSetCustomerServiceEmployee(customerService);
 
+    	addServiceToServiceListforCustomer(customerService);
 
         customerServiceList.add(customerService);
+        
+        
     }
     
     public static void consult() {
@@ -226,6 +230,11 @@ public class CustomerServiceManager {
 	    	customerService.setCustomer(CustomerManager.customerList.get(i++));
 	    }
 	    
+    }
+    
+    protected static void addServiceToServiceListforCustomer(CustomerService customerservice) {
+    	Customer.serviceListForCustomer.add(customerservice.getDescription());
+    	
     }
     
     protected static void readAndSetCustomerServiceEmployee(CustomerService customerService) throws ParseException{

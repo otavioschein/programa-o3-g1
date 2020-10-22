@@ -1,6 +1,8 @@
 package entities;
 
 import enums.Status;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Customer {
@@ -14,6 +16,8 @@ public class Customer {
     private String maritalStatus;
     private Status status;
     private Address address;
+    
+    public static ArrayList<Service> serviceListForCustomer = new ArrayList<Service>();
 
     public Customer(String cpf, String name, String phoneNumber, String email, Date birthday, String gender, String maritalStatus, Status status, Address address) {
         this.cpf = cpf;
